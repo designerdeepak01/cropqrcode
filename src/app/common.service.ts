@@ -14,11 +14,11 @@ export class CommonService {
 
   getProduct() {
     console.log('API Hit');
-    
+
     const limit = 10
     if (!this._productCache$) {
 
-      this._productCache$ =  this.http.get<any>(`https://dummyjson.com/products?limit=${limit}`).pipe(
+      this._productCache$ = this.http.get<any>(`https://dummyjson.com/products`).pipe(
         shareReplay(1)
       )
       return this._productCache$
@@ -45,6 +45,10 @@ export class CommonService {
       )
     )
   }
+
+ createUser(newUser: any) {
+  return this.http.post('http://localhost:3000/users', newUser);
+}
   selectValue(selectValue: any) {
     this.selectSubject.next(selectValue)
   }

@@ -8,7 +8,7 @@ import { debounce, debounceTime, skip, switchMap } from 'rxjs';
   imports: [CommonModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
-  host:{ngSkipHydration:''}
+  host: { ngSkipHydration: '' }
 })
 export class TableComponent {
   private service = inject(CommonService)
@@ -16,11 +16,12 @@ export class TableComponent {
   filteredData: any[] = []
   ngOnInit() {
     console.log('comp called');
-    
+
     this.service.getProduct().subscribe({
       next: (data) => {
-        console.log(data);
+        console.log('data loaded',data);
         if (data) {
+          // this.allData =  Object.values(data[0])
           this.allData = data.products
           this.filteredData = this.allData
         }
@@ -40,5 +41,29 @@ export class TableComponent {
       })
 
   }
+
+  createUser() {
+const users = [];
+
+for (let i = 1; i <= 20000; i++) {
+  users.push({
+    id: i,
+    name: `User ${i}`,
+    email: `user${i}@test.com`,
+    age: Math.floor(Math.random() * 60) + 18,
+    status: i % 2 === 0 ? "Active" : "Inactive"
+  });
+}
+if(users){
+
+  this.service.createUser(users).subscribe(res => {
+    console.log('User Created:', res);
+  });
+}
+}
+
+trackByUserId(index:number, user:any){
+  return user.id
+}
 
 }
